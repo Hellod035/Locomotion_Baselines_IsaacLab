@@ -151,8 +151,6 @@ class G1RoughEnvCfg(G1FlatEnvCfg):
         super().__post_init__()
         self.scene.terrain.terrain_generator = ROUGH_TERRAINS_CFG
         self.scene.height_scanner.update_period = self.decimation * self.sim.dt
-        self.observations.critic.feet_contact.params["sensor_cfg"] = SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*")
-
 
 @configclass
 class G1RoughEnvCfg_PLAY(G1RoughEnvCfg):

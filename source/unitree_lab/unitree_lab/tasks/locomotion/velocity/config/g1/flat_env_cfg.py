@@ -76,13 +76,18 @@ class RewardsCfg:
     dof_pos_limits = RewTerm(func=mdp.joint_pos_limits, weight=-2.0)
     joint_deviation_hip = RewTerm(
         func=mdp.joint_deviation_l1,
-        weight=-0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hip_yaw.*", ".*_hip_roll.*"])},
+        weight=-0.15,
+        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hip_yaw.*", ".*_hip_roll.*", ".*_shoulder_pitch.*", ".*_elbow.*"])},
     )
     joint_deviation_arms = RewTerm(
         func=mdp.joint_deviation_l1,
         weight=-0.2,
-        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*waist.*", ".*_shoulder.*", ".*_wrist.*", ".*_elbow.*"])}
+        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*waist_yaw.*", ".*_shoulder_roll.*", ".*_shoulder_yaw.*", ".*_wrist.*"])}
+    )
+    joint_deviation_waist = RewTerm(
+        func=mdp.joint_deviation_l1,
+        weight=-0.4,
+        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*waist_pitch.*", ".*waist_roll.*"])}
     )
     joint_deviation_legs = RewTerm(
         func=mdp.joint_deviation_l1,
@@ -106,6 +111,7 @@ class G1FlatEnvCfg(LocomotionEnvCfg):
         """Post initialization."""
         super().__post_init__()
         self.scene.robot = G1_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.observations.critic.feet_contact.params["sensor_cfg"] = SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*")
 
 
 @configclass
