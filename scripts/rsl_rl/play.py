@@ -45,7 +45,8 @@ from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper, expor
 from isaaclab_tasks.utils import get_checkpoint_path, parse_env_cfg
 
 # Import extensions to set up environment tasks
-import ext_template.tasks  # noqa: F401
+import unitree_lab.tasks  # noqa: F401
+from unitree_lab.utils.keyboard import Keyboard
 
 
 def main():
@@ -87,7 +88,7 @@ def main():
     print(f"[INFO]: Loading model checkpoint from: {resume_path}")
     # load previously trained model
     ppo_runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
-    ppo_runner.load(resume_path)
+    ppo_runner.load(resume_path, load_optimizer=False)
 
     # obtain the trained policy for inference
     policy = ppo_runner.get_inference_policy(device=env.unwrapped.device)
@@ -100,7 +101,7 @@ def main():
     export_policy_as_onnx(
         ppo_runner.alg.actor_critic, normalizer=ppo_runner.obs_normalizer, path=export_model_dir, filename="policy.onnx"
     )
-
+    keyboard = Keyboard(env)
     # reset environment
     obs, _ = env.get_observations()
     timestep = 0
