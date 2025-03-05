@@ -1,0 +1,26 @@
+--- git status ---
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   rsl_rl/runners/on_policy_runner.py
+ 
+
+
+--- git diff ---
+diff --git a/rsl_rl/runners/on_policy_runner.py b/rsl_rl/runners/on_policy_runner.py
+index 4fe58bf..bc87427 100644
+--- a/rsl_rl/runners/on_policy_runner.py
++++ b/rsl_rl/runners/on_policy_runner.py
+@@ -266,8 +266,8 @@ class OnPolicyRunner:
+         torch.save(saved_dict, path)
+ 
+         # Upload model to external logging service
+-        if self.logger_type in ["neptune", "wandb"]:
+-            self.writer.save_model(path, self.current_learning_iteration)
++        # if self.logger_type in ["neptune", "wandb"]:
++        #     self.writer.save_model(path, self.current_learning_iteration)
+ 
+     def load(self, path, load_optimizer=True):
+         loaded_dict = torch.load(path)
