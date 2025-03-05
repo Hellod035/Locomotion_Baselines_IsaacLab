@@ -49,4 +49,3 @@ class PPORunnerCfg(RslRlOnPolicyRunnerCfg):
     algorithm: Algorithm = Algorithm()
     logger = "wandb"
     wandb_project = MISSING
-    dagger = DaggerCfg()
